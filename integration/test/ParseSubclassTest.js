@@ -207,6 +207,7 @@ describe('Parse Object Subclasses', () => {
     assert(results[0].doSomething(), 4);
 
     const response = await Parse.Cloud.run('department:getMembers');
-    console.log(response);
+    assert(response[0] instanceof Profile);
+    assert(response[0].doSomething(), 4);
   });
 });
