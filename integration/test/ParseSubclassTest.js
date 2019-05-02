@@ -181,4 +181,32 @@ describe('Parse Object Subclasses', () => {
     const wartortle = new Wartortle();
     assert(wartortle.water);
   });
+
+  fit('can subclass with extends', async () => {
+    class Profile extends Parse.Object {
+      constructor() {
+        super('Profile');
+      }
+
+      doSomething() {
+        return 4;
+      }
+    }
+
+    Parse.Object.registerSubclass('Profile', Profile);
+
+    const obj1 = new Profile();
+    const obj2 = new Profile();
+    await obj1.save();
+    await obj2.save();
+
+    const query = new Parse.Query(Profile);
+    const results = await query.find();
+    console.log(results);
+    assert(results[0] instanceof Profile);
+    assert(results[0].doSomething(), 4);
+
+    const response = await Parse.Cloud.run('department:getMembers');
+    console.log(response);
+  });
 });

@@ -44,3 +44,17 @@ Parse.Cloud.job('CloudJob2', function() {
 Parse.Cloud.job('CloudJobFailing', function() {
   throw 'cloud job failed';
 });
+
+Parse.Cloud.define('department:getMembers', () => {
+  class Profile extends Parse.Object {
+    constructor() {
+      super('Profile');
+    }
+
+    doSomething() {
+      return 4;
+    }
+  }
+  Parse.Object.registerSubclass('Profile', Profile);
+  return new Parse.Query(Profile).find({useMasterKey: true});
+});
